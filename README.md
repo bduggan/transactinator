@@ -56,3 +56,9 @@ insert into debits (amt) values (10);
 insert into debits (amt) values (10);
 prepare transaction 'foo';
 ```
+
+## References
+
+* [prepare transaction](https://www.postgresql.org/docs/11/sql-prepare-transaction.html),
+[rollback prepared](https://www.postgresql.org/docs/11/sql-rollback-prepared.html), [commit prepared](https://www.postgresql.org/docs/11/sql-commit-prepared.html)
+
