@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+pg_ctl -D first -l first.log stop
+pg_ctl -D second -l second.log stop
+
+rm -rf first
+rm -rf second

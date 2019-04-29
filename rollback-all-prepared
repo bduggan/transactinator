@@ -1,0 +1,17 @@
+#!/bin/bash
+
+first="-p 5433 first"
+second="-p 5434 second"
+psql="psql --no-psqlrc"
+sql=$(
+$psql $first -t -c "
+select 'rollback prepared ''' || gid || ''';' from pg_prepared_xacts
+"
+)
+
+[ -z "$sql" ] && echo 'no prepared transactions to roll back' && exit
+
+echo $sql
+
+$psql $first -c "$sql"
+$psql $second -c "$sql"

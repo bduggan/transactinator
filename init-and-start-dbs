@@ -1,0 +1,21 @@
+#!/bin/sh
+
+rm -rf log
+mkdir -p log
+
+initdb first
+sed -ie 's/#port = 5432/port = 5433/' first/postgresql.conf
+sed -ie 's/#max_prepared_transactions = 0/max_prepared_transactions = 100/' first/postgresql.conf
+
+initdb second
+sed -ie 's/#port = 5432/port = 5434/' second/postgresql.conf
+sed -ie 's/#max_prepared_transactions = 0/max_prepared_transactions = 100/' second/postgresql.conf
+
+pg_ctl -D first -l log/first.log start
+pg_ctl -D second -l log/second.log start
+
+createdb first -p 5433
+createdb second -p 5434
+
+psql first -p 5433 -c 'create table debits (id serial primary key, amt decimal)'
+psql second -p 5434 -c 'create table credits (id serial primary key, amt decimal)'

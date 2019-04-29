@@ -1,0 +1,8 @@
+#!/bin/sh
+
+first="-p 5433 first"
+second="-p 5434 second"
+psql='psql --no-psqlrc'
+
+$psql $first -c "select * from debits;";
+$psql $second -c "select * from credits;";

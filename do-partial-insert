@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+first="-p 5433 first"
+second="-p 5434 second"
+psql='psql --no-psqlrc'
+
+$psql $first -c "
+begin;
+insert into debits (amt) values (10);
+prepare transaction 't_001';
+"
+
+$psql $second -c "
+begin;
+insert into credits (amt) values (10);
+prepare transaction 't_001';
+"
+

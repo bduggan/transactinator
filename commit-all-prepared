@@ -1,0 +1,20 @@
+#!/bin/bash
+
+first="-p 5433 first"
+second="-p 5434 second"
+psql="psql --no-psqlrc"
+
+# Happy path: assumes the same ids exist in both databases.
+
+sql=$(
+$psql $first -t -c "
+select 'commit prepared ''' || gid || ''';' from pg_prepared_xacts
+"
+)
+
+[ -z "$sql" ] && echo 'no prepared transactions to commit' && exit
+
+echo $sql
+
+$psql $first -c "$sql"
+$psql $second -c "$sql"
