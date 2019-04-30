@@ -37,6 +37,14 @@ These are a few scripts which
 ./select-all
 # this time we see the changes
 
+# Notice that updates will lock the row until the transaction is handled
+./do-partial-update
+./show-all-prepared
+./do-partial-update
+# Notice that it hangs -- waiting for the lock...^C
+./commit-all-prepared # or rollback
+./do-partial-update   # ok now
+
 # clean up
 ./stop-and-purge-dbs
 ```

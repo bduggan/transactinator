@@ -1,0 +1,12 @@
+#!/bin/bash
+
+first="-p 5433 first"
+second="-p 5434 second"
+psql="psql --no-psqlrc"
+
+sql="select * from pg_prepared_xacts;"
+
+echo first
+$psql $first -c "$sql"
+echo second
+$psql $second -c "$sql"
